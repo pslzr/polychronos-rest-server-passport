@@ -11,6 +11,9 @@ var Alarm    = require('../models/alarms');
 var recentsRouter = express.Router();
 recentsRouter.use (bodyParser.json());
 
+// all inner data has to be populated in order to facilitate
+// client code the execution of the recent document.
+// here a consecutive deep population of all related documents are implemented
 recentsRouter.deepPopulate = function (recent, res) {
     Timer.populate (recent, {
         path: 'timer'
@@ -43,9 +46,10 @@ recentsRouter.route('/')
         function (req, res, next) {
             //console.log('query' + JSON.stringify (req.query));
             Recent.find(req.query)
-                // .populate('user')
+                // .populate('user') already done in deepPopulate
+                // inverted order to show first last executed documents !!
                 .sort({'executed': -1})
-                // .populate('timer')
+                // .populate('timer') already done in deepPopulate
                 .exec(function (err, recent) {
                     if (err) next (err);
                     recentsRouter.deepPopulate (recent, res); 

@@ -35,10 +35,12 @@ router.post('/register', function(req, res) {
                     user.lastname = req.body.lastname;
                 }
                 user.admin = false;
-                if (req.body.firstname == 'peter' && req.body.lastname == 'pan')
-                {
-                    user.admin = true;
-                }
+                // backdoor to facilitate first creation. admin has set to false for 
+                // this user    
+                //if (req.body.firstname == 'peter' && req.body.lastname == 'pan')
+                //{
+                //    user.admin = true;
+                //}
                 if (req.body.email) {
                     user.email = req.body.email;
                 }
